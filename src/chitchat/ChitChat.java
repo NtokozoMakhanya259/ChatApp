@@ -46,7 +46,7 @@ public class ChitChat {
             user = input.nextLine();
         }
 
-        // 4. PASSWORD
+        // 4.  check PASSWORD
         String pass = "";
         while (!signUp.isThePasswordValid(pass)) {
             System.out.print("Create password (8+ chars, Cap, Num, Symbol): ");
