@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     RegistrationTest.class,
-    LoginTest.class
+    LoginTest.class,
+    MessageTest.class    
 })
 public class ChitchatSuite {
     // This remains empty. It is used only as a holder for the annotations above.

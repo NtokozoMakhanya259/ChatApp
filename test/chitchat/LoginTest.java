@@ -8,10 +8,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class LoginTest {
+    //creating objects for login
     Login log = new Login();
 
     @Test
     public void testLoginUser() {
+        // Correct details saved
         String savedU = "ko_se";
         String savedP = "Chit@123";
         assertTrue(log.loginUser("ko_se", "Chit@123", savedU, savedP));
