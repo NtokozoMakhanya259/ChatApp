@@ -8,7 +8,6 @@ package chitchat;
  *
  * @author Student
  */
-
 import java.util.Scanner;
 
 public class ChitChat {
@@ -66,85 +65,74 @@ public class ChitChat {
         String loginUser = input.nextLine();
         System.out.print("Enter password to log in: ");
         String loginPass = input.nextLine();
-        
+
         // Forcing login to true for now so the program can move to the menu
-        boolean loggedIn = false;
-        loggedIn = true;
+        boolean loggedIn = true;
 
         // --- Message Part ---
         if (loggedIn) {
-            int menuChoice = 0;
-            // Keeps running the menu until the user selects option 3 (Quit)
-            while (menuChoice != 3) {
-                System.out.println("\n--- Menu ---");
-                System.out.println("1. Send a new Message");
-                System.out.println("2. Discard and return to main menu");
-                System.out.println("3. Quit");
-                System.out.print("Choice: ");
-                menuChoice = input.nextInt();
-                input.nextLine(); // Clears the scanner buffer
+            System.out.println("Welcome to QuickChat.");
+            int choice = 0;
+            
+            // Loop until user selects 3 (Quit) to keep the app running
+            while (choice != 3) {
+                System.out.println("\n1. Send Messages\n2. View Sent Messages\n3. Quit");
+                System.out.print("Enter choice: ");
+                choice = input.nextInt();
+                input.nextLine(); // Consume newline for scanner buffer
 
-                switch (menuChoice) {
+                switch (choice) {
                     case 1:
+                        // Ask how many messages to send first
                         System.out.print("How many messages do you want to enter? ");
                         int numMessages = input.nextInt();
-                        input.nextLine(); // Clears the scanner buffer
+                        input.nextLine();
 
-                        // Loops for the total number of messages specified
+                        // Loop through based on the count the user provided
                         for (int i = 0; i < numMessages; i++) {
                             System.out.println("\nEntering details for message " + (i + 1));
-
-                            System.out.print("Enter Recipient Number: ");  
+                            
+                            System.out.print("Enter Recipient Number: ");
                             String call = input.nextLine();
                             String validCall = msg.checkCallNumber(call);
-
-                            // Skips this loop iteration if the phone number is invalid
+                            
+                            // Validate phone logic from Message class
                             if (validCall.equals("Invalid call number")) {
-                                System.out.println("Invalid call number. Skipping message.");
+                                System.out.println("Invalid call number.");
                                 continue;
                             }
 
                             System.out.print("Enter Message Text: ");
                             String text = input.nextLine();
-                            // Skips if the text is too long
-                            if (!msg.checkMessage(text)) {
-                                System.out.println("Message too long. Skipping.");  
-                                continue;
-                            }
+                            // Validate length
+                            if (!msg.checkMessage(text)) continue;
 
-                            System.out.print("Enter Message ID: ");
-                            int id = input.nextInt();
-                            input.nextLine(); // Clears the scanner buffer
+                            System.out.print("Enter Unique Message ID (at least 2 chars): ");
+                            String id = input.nextLine();
 
-                            // Generates a security hash for the message
-                            String hash = msg.createMessageHash(id, text);
-
+                            // Pass 'i + 1' as the current message counter for the hash
+                            String hash = msg.createMessageHash(id, i + 1, text);
+                            
+                            System.out.println("Hash generated: " + hash);
+                            
+                            // Ask for action choice until valid
                             int action = 0;
-                            // Loops until user selects 1, 2, or 3
-                            while (action < 1 || action > 3) {  
+                            while (action < 1 || action > 3) {
                                 System.out.print("1. Send  2. Discard  3. Store: ");
                                 action = input.nextInt();
-                                input.nextLine(); // Clears the scanner buffer
+                                input.nextLine();
                             }
-
-                            // Processes and prints the final message status
-                            String result = msg.storeMessage(action, validCall, text, hash);
-                            System.out.println(result);
-
-                            // If action is 3, prints it in JSON format
-                            if (action == 3) {
-                                System.out.println("Stored as JSON: " +
-                                    msg.storeMessageAsJson(String.valueOf(id), validCall, text, hash));
-                            }
+                            System.out.println(msg.storeMessage(action, validCall, text, hash));
                         }
                         break;
 
                     case 2:
-                        System.out.println("Discarded.");
+                        // Placeholder per instructions
+                        System.out.println("Coming Soon.");
                         break;
 
                     case 3:
-                        System.out.println("Goodbye!");  
+                        System.out.println("Quit");  
                         break;
 
                     default:
